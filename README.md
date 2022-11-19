@@ -1,1 +1,1 @@
-# String-Compression
+# String-Compressor
