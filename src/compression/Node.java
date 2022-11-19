@@ -1,4 +1,5 @@
 package compression;
+
 public class Node {
     private int frequency = 1;
     private char character;
@@ -13,6 +14,17 @@ public class Node {
     public Node(int frequency, char character) {
         this.frequency = frequency;
         this.character = character;
+    }
+
+    public static void showNodeData(Node node) {
+        if(node == null) {
+            System.out.print("null");
+            return;
+        }
+
+        char character = node.getCharacter();
+        int frequency = node.getFrequency();
+        System.out.print(character + "," + frequency);
     }
 
     public boolean hasBiggerPriorityThan(Node node) {

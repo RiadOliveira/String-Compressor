@@ -25,16 +25,19 @@ public class StringCompressor {
     private static void handleCompressionOperation() {
         System.out.print("Insira o texto para ser comprimido: ");
         String receivedString = scanner.next();
-        System.out.println();
 
-        showStringAndItsBits(receivedString);
+        System.out.println();
+        double bitsQuantity = showStringAndGetItsBits(receivedString);
+
         Node stringNodes[] = getNodesFromString(receivedString);
+        showCompressionResults(receivedString, stringNodes, bitsQuantity);
+        System.out.println();
     }
 
-    private static void showStringAndItsBits(String receivedString) {
+    private static double showStringAndGetItsBits(String receivedString) {
         System.out.println("String recebida: " + receivedString);
 
-        int bitsQuantity = 0;
+        double bitsQuantity = 0;
         for(int ind=0 ; ind<receivedString.length() ; ind++) {
             char iterationChar = receivedString.charAt(ind);
             String binaryString = Integer.toBinaryString(iterationChar);
@@ -46,6 +49,7 @@ public class StringCompressor {
         }
 
         System.out.println("Quantidade total de bits: " + bitsQuantity);
+        return bitsQuantity;
     }
 
     private static Node[] getNodesFromString(String receivedString) {
@@ -71,7 +75,32 @@ public class StringCompressor {
         return stringNodes;
     }
 
-    private static void executeCompression() {
+    private static void showCompressionResults(
+        String originalString, Node stringNodes[],
+        double originalBitsQuantity
+    ) {
+        int ind = 0;
+        while(ind < stringNodes.length && stringNodes[ind] != null) ind++;
 
+        HuffmanTree huffmanTree = new HuffmanTree(ind, stringNodes);
+        huffmanTree.showTree();
+        huffmanTree.printTreeCodes();
+
+        String compressedString = huffmanTree.getCompressedStringBits(
+            originalString
+        );
+        double compressedBitsQuantity = compressedString.length();
+
+        System.out.println(
+            "\nBits da string comprimida: " + compressedString
+        );
+        System.out.println(
+            "Quantidade de bits final: " +
+            compressedBitsQuantity
+        );
+
+        double compressionRate = 
+            compressedBitsQuantity/originalBitsQuantity;
+        System.out.println("Taxa de compressão: " + compressionRate);
     }
 }
